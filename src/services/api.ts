@@ -1,4 +1,4 @@
-import { TicketmasterResponse } from "@/types/ticketmaster";
+import { Event, TicketmasterResponse } from "@/types/ticketmaster";
 
 const BASE_URL = process.env.TICKETMASTER_BASE_URL;
 const API_KEY = process.env.TICKETMASTER_API_KEY;

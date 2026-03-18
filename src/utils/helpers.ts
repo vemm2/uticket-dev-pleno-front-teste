@@ -49,7 +49,9 @@ export const getEventImage = (images: Image[]) => {
 /**
  * Extrai categorias do evento
  */
-export const getEventCategories = (classifications: Classification[]) => {
+export const getEventCategories = (
+  classifications: Classification[] | undefined,
+) => {
   if (!classifications || classifications.length === 0) return [];
 
   const categories = [];

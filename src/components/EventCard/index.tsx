@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import React from 'react'
 import { Event } from '@/types/ticketmaster'
+import { useToggleSave } from "@/hooks/useTooggleSave";
 import {
     formatDate,
     formatPrice,
@@ -15,6 +16,7 @@ interface EventCardProps {
     event: Event
 }
 const EventCard = ({ event }: EventCardProps) => {
+    const { handleSaveToggle } = useToggleSave(event);
     const { saveEvent, removeEvent, isEventSaved } = useSavedEvents();
     const isSaved = isEventSaved(event?.id);
 
@@ -23,19 +25,6 @@ const EventCard = ({ event }: EventCardProps) => {
     const eventStatus = getEventStatus(event);
     const venue = event._embedded?.venues?.[0];
 
-    const handleSaveToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (isSaved) {
-            removeEvent(event.id);
-        } else {
-            const result = saveEvent(event);
-            if (!result.success) {
-                alert(result.message);
-            }
-        }
-    };
 
     return (
         <Link href={`/evento/${event.id}`} className={styles.eventCard}>

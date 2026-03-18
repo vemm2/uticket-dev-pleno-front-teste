@@ -9,6 +9,11 @@ export interface TicketmasterResponse {
 export interface Event {
   id: string;
   name: string;
+  info?: string;
+  pleaseNote?: string;
+  seatmap?: {
+    staticUrl: string;
+  };
   type: string;
   url: string;
   images: Image[];
