@@ -31,17 +31,25 @@ export const ticketmasterApi = {
       },
     ),
 
-  searchEvents: ({
-    keyword,
-    city,
-    page,
-  }: {
-    keyword: string;
-    city: string;
-    page: number;
-  }) =>
+  searchEvents: (
+    {
+      keyword,
+      city,
+      page,
+      startDate,
+      endDate,
+      category,
+    }: {
+      keyword: string;
+      city: string;
+      page: number;
+      startDate: string;
+      endDate: string;
+      category: string;
+    }, // melhorar a forma de passar os parametros para a URL
+  ) =>
     fetchTicketmaster<TicketmasterResponse>(
-      `/events.json?keyword=${keyword}&city=${city}&page=${page}`,
+      `/events.json?keyword=${keyword}&city=${city}&page=${page}&startDateTime=${startDate}&endDateTime=${endDate}&classificationName=${category}&size=12`,
       {
         cache: "no-store", // Força SSR (sem cache fixo)
       },

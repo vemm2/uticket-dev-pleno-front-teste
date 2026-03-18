@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { debounce } from '@/utils/helpers';
 import styles from './SeachBar.module.css';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
@@ -11,34 +10,40 @@ interface SearchBarProps {
 
 export default function SearchBar({ initialValue = '' }: SearchBarProps) {
     const [searchTerm, setSearchTerm] = useState(initialValue)
+
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const handleSearch = (term: string) => {
-        const params = new URLSearchParams(searchParams.toString());
-        term ? params.set('q', term) : params.delete('q');
-        router.push(`${pathname}?${params.toString()}`, { scroll: false });
-    }
-
-    const debouncedSearchRef = useRef(
-        debounce((term: string) => {
-            handleSearch(term);
-        }, 500)
-    );
     useEffect(() => {
-        debouncedSearchRef.current(searchTerm);
-    }, [searchTerm]);
+        const currentQuery = searchParams.get('q') || '';
+        if (searchTerm === currentQuery) return;
+
+        const delayDebounceFn = setTimeout(() => {
+            const params = new URLSearchParams(searchParams.toString());
+
+            if (searchTerm) {
+                params.set('q', searchTerm);
+            } else {
+                params.delete('q');
+            }
+
+            params.delete('page');
+
+            router.push(`${pathname}?${params.toString()}`, { scroll: false });
+        }, 500);
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [searchTerm, searchParams, pathname, router]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        handleSearch(searchTerm);
+        const params = new URLSearchParams(searchParams.toString());
+        searchTerm ? params.set('q', searchTerm) : params.delete('q');
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
     };
 
-    const handleClear = () => {
-        setSearchTerm('');
-        handleSearch('');
-    };
+
     return (
         <form className={styles.searchBar} onSubmit={handleSubmit}>
             <div className={styles.searchInputContainer}>
@@ -55,7 +60,7 @@ export default function SearchBar({ initialValue = '' }: SearchBarProps) {
                     <button
                         type="button"
                         className={styles.clearButton}
-                        onClick={handleClear}
+                        onClick={() => setSearchTerm('')}
                         aria-label="Limpar busca"
                     >
                         ✕

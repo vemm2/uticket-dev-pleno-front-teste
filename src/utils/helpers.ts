@@ -120,23 +120,10 @@ export const getCountdown = (dateString: string) => {
 };
 
 /**
- * Debounce function para otimizar buscas
+ * Formata data para ISO 8601
  */
-export function debounce<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number,
-) {
-  // ReturnType<typeof setTimeout> garante que o tipo do timeout
-  // seja compatível com Node ou Browser
-  let timeout: ReturnType<typeof setTimeout> | null = null;
-
-  return function executedFunction(...args: Parameters<T>) {
-    const later = () => {
-      timeout = null;
-      func(...args);
-    };
-
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
+export const formatToISODate = (date: string, isEnd: boolean = false) => {
+  if (!date) return "";
+  const time = isEnd ? "23:59:59Z" : "00:00:00Z";
+  return `${date}T${time}`;
+};
