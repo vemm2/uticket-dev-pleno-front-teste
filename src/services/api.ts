@@ -20,10 +20,9 @@ async function fetchTicketmaster<T>(
   return response.json();
 }
 
-// --- Funções Específicas ---
+// --- Funções ---
 
 export const ticketmasterApi = {
-  // Exemplo para a Home (ISR)
   getPopularEvents: () =>
     fetchTicketmaster<TicketmasterResponse>(
       "/events.json?size=12&sort=relevance,desc",
@@ -32,13 +31,22 @@ export const ticketmasterApi = {
       },
     ),
 
-  // Exemplo para a Busca (SSR)
-  searchEvents: (term: string) =>
-    fetchTicketmaster<TicketmasterResponse>(`/events.json?keyword=${term}`, {
-      cache: "no-store", // Força SSR (sem cache fixo)
-    }),
+  searchEvents: ({
+    keyword,
+    city,
+    page,
+  }: {
+    keyword: string;
+    city: string;
+    page: number;
+  }) =>
+    fetchTicketmaster<TicketmasterResponse>(
+      `/events.json?keyword=${keyword}&city=${city}&page=${page}`,
+      {
+        cache: "no-store", // Força SSR (sem cache fixo)
+      },
+    ),
 
-  // Exemplo para Detalhes (SSG)mas m
   getEventById: (id: string) =>
     fetchTicketmaster<Event>(`/events/${id}.json`, {
       next: { revalidate: 86400 }, // Revalida a cada 24h
