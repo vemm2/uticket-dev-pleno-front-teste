@@ -88,18 +88,18 @@ export const getEventPrice = (priceRanges: PriceRange[] | undefined) => {
 export const getEventStatus = (event: Event): string => {
   const startDateTime = event.dates?.start?.dateTime;
 
-  // ✅ Correção: Só criamos a Date se startDateTime for "truthy" (não undefined)
+
   const startDate = startDateTime ? new Date(startDateTime) : null;
   const now = new Date();
 
   if (event.dates?.status?.code === "cancelled") return "Cancelado";
   if (event.dates?.status?.code === "postponed") return "Adiado";
 
-  // Se não tem data de início, tratamos como "A definir" ou verificamos outros campos
+
   if (startDate && startDate < now) return "Encerrado";
 
-  // ... resto da lógica
-  return "Inscrições abertas";
+
+  return "Inscrições Abertas";
 };
 
 /**
