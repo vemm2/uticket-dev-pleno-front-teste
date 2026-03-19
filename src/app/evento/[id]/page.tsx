@@ -1,4 +1,4 @@
-import { ticketmasterApi } from "@/services/api";
+import { getEventById } from "@/services/api";
 import styles from "./evento.module.css";
 import BackButton from "@/components/BackButton";
 import Image from "next/image";
@@ -14,7 +14,7 @@ interface EventoProps {
 
 const EventoPage = async ({ params }: EventoProps) => {
     const { id } = await params
-    const event = await ticketmasterApi.getEventById(id)
+    const event = await getEventById(id)
 
 
 

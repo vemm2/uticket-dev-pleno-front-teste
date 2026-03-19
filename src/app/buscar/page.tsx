@@ -1,4 +1,4 @@
-import { ticketmasterApi } from "@/services/api";
+import { searchEvents } from "@/services/api";
 import styles from "./buscar.module.css";
 import SearchBar from "@/components/SearchBar";
 import EventCard from "@/components/EventCard";
@@ -20,7 +20,7 @@ interface BuscarPageProps {
 export default async function BuscarPage({ searchParams }: BuscarPageProps) {
     const { q: query = '', city = '', page = '0', startDate = '', endDate = '', category = '' } = await searchParams;
 
-    const data = await ticketmasterApi.searchEvents({
+    const data = await searchEvents({
         keyword: query,
         city: city,
         page: parseInt(page),

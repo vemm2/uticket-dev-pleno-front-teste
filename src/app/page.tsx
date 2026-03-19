@@ -2,10 +2,10 @@ import Link from 'next/link';
 import EventCard from '../components/EventCard';
 
 import styles from './page.module.css';
-import { ticketmasterApi } from '@/services/api';
+import { getPopularEvents } from '@/services/api';
 
 const HomePage = async () => {
-  const data = await ticketmasterApi.getPopularEvents()
+  const data = await getPopularEvents()
   const events = data._embedded?.events || []
 
   return (
