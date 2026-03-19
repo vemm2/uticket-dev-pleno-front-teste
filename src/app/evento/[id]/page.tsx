@@ -7,17 +7,49 @@ import Hero from "./_components/hero.tsx";
 import Info from "./_components/info";
 import Countdown from "./_components/countdown";
 import Action from "./_components/action";
+import { Metadata } from "next";
 
 interface EventoProps {
     params: Promise<{ id: string }>;
 }
 
+export async function generateMetadata({ params }: EventoProps): Promise<Metadata> {
+    const { id } = await params;
+
+    try {
+        const event = await getEventById(id);
+        const imageUrl = getEventImage(event.images);
+        const eventDate = event.dates?.start?.dateTime ? formatDate(event.dates?.start?.dateTime) : '';
+
+        return {
+            title: `${event.name} | EventHub`,
+            description: event.info || `Compre ingressos para ${event.name} no dia ${eventDate}.`,
+            openGraph: {
+                title: event.name,
+                description: `Garanta seu lugar para ${event.name}!`,
+                images: [
+                    {
+                        url: imageUrl,
+                        width: 1200,
+                        height: 630,
+                        alt: `Pôster do evento ${event.name}`,
+                    },
+                ],
+                type: 'website',
+            },
+        };
+    } catch (error) {
+        return {
+            title: "Evento não encontrado | EventHub",
+            description: "Detalhes do evento não estão disponíveis no momento."
+        };
+    }
+}
+
+
 const EventoPage = async ({ params }: EventoProps) => {
     const { id } = await params
     const event = await getEventById(id)
-
-
-
 
     return (
         <main className={styles.eventDetailsPage}>
