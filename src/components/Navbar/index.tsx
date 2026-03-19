@@ -36,7 +36,7 @@ const Navbar = () => {
                         <Link href="/salvos" className={`${styles.navbarLink} ${isActive('/salvos')}`}>
                             Meus Eventos
                             {savedCount > 0 && (
-                                <span className="badge">{savedCount}</span>
+                                <span className={styles.badge}>{savedCount}</span>
                             )}
                         </Link>
                     </li>
