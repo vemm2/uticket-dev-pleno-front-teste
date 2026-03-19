@@ -4,6 +4,7 @@ import EventCard from '../components/EventCard';
 import styles from './page.module.css';
 import { getPopularEvents } from '@/services/api';
 
+
 const HomePage = async () => {
   const data = await getPopularEvents()
   const events = data._embedded?.events || []

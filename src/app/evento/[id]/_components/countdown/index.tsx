@@ -10,7 +10,7 @@ interface CountdownProps {
     targetDate: string;
     status: string;
 }
-const Countdown = ({ targetDate, status }: CountdownProps) => {
+const Countdown = ({ targetDate }: CountdownProps) => {
     const [isMounted, setIsMounted] = useState(false);
     const [countdown, setCountdown] = useState(() => getCountdown(targetDate));
 

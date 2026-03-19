@@ -2,7 +2,7 @@ import { getEventById, getPopularEvents } from "@/services/api";
 import styles from "./evento.module.css";
 import BackButton from "@/components/BackButton";
 import Image from "next/image";
-import { formatDate, formatPrice, getEventCategories, getEventImage, getEventPrice, getEventStatus } from "@/utils/helpers";
+import { formatDate, getEventImage } from "@/utils/helpers";
 import Hero from "./_components/hero.tsx";
 import Info from "./_components/info";
 import Countdown from "./_components/countdown";
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: EventoProps): Promise<Metadat
                 type: 'website',
             },
         };
-    } catch (error) {
+    } catch {
         return {
             title: "Evento não encontrado | EventHub",
             description: "Detalhes do evento não estão disponíveis no momento."
