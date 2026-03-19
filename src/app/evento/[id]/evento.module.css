@@ -18,6 +18,26 @@
   display: inline-block;
 }
 
+.statusBadge.statusInscriçõesAbertas {
+  background: rgba(16, 185, 129, 0.9);
+}
+
+.statusBadge.statusEsgotado {
+  background: rgba(239, 68, 68, 0.9);
+}
+
+.statusBadge.statusCancelado {
+  background: rgba(239, 68, 68, 0.9);
+}
+
+.statusBadge.statusAdiado {
+  background: rgba(245, 158, 11, 0.9);
+}
+
+.statusBadge.statusEncerrado {
+  background: rgba(2, 2, 2, 0.9);
+}
+
 .eventHero {
   position: relative;
   width: 100%;
