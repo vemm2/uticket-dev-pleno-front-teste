@@ -12,6 +12,7 @@ import {
 import styles from './EventCard.module.css'
 import { useSavedEvents } from '@/store/useSavedEvents';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 interface EventCardProps {
     event: Event
 }
@@ -34,11 +35,13 @@ const EventCard = ({ event }: EventCardProps) => {
     return (
         <Link href={`/evento/${event.id}`} className={styles.eventCard}>
             <div className={styles.eventCardImageContainer}>
-                <img
+                <Image
                     src={eventImage}
                     alt={event.name}
                     className={styles.eventCardImage}
                     loading="lazy"
+                    width={352}
+                    height={264.5}
                 />
                 <button
                     className={`${styles.saveButton} ${isMounted && isSaved ? styles.saved : ''}`}

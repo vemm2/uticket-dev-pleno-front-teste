@@ -2,7 +2,16 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["s1.ticketm.net", "mapsapi.tmol.io"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "s1.ticketm.net",
+      },
+      {
+        protocol: "https",
+        hostname: "mapsapi.tmol.io",
+      },
+    ],
   },
 };
 

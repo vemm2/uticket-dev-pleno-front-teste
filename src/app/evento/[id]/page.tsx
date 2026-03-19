@@ -1,4 +1,4 @@
-import { getEventById } from "@/services/api";
+import { getEventById, getPopularEvents } from "@/services/api";
 import styles from "./evento.module.css";
 import BackButton from "@/components/BackButton";
 import Image from "next/image";
@@ -12,7 +12,22 @@ import { Metadata } from "next";
 interface EventoProps {
     params: Promise<{ id: string }>;
 }
+// gera os params estáticos para a página de eventos
+export async function generateStaticParams() {
+    try {
+        const data = await getPopularEvents();
+        const events = data._embedded?.events || [];
 
+        return events.map((event) => ({
+            id: String(event.id),
+        }));
+    } catch (error) {
+        console.error("Erro ao gerar params estáticos:", error);
+        return [];
+    }
+}
+
+// gera os metadados para a página de eventos
 export async function generateMetadata({ params }: EventoProps): Promise<Metadata> {
     const { id } = await params;
 
@@ -46,7 +61,7 @@ export async function generateMetadata({ params }: EventoProps): Promise<Metadat
     }
 }
 
-
+// página de eventos
 const EventoPage = async ({ params }: EventoProps) => {
     const { id } = await params
     const event = await getEventById(id)
