@@ -11,12 +11,15 @@ import {
 } from '@/utils/helpers';
 import styles from './EventCard.module.css'
 import { useSavedEvents } from '@/store/useSavedEvents';
+import { useEffect, useState } from 'react';
 interface EventCardProps {
     event: Event
 }
 const EventCard = ({ event }: EventCardProps) => {
+    const [isMounted, setIsMounted] = useState(false);
+
     const { handleSaveToggle } = useToggleSave(event);
-    const { saveEvent, removeEvent, isEventSaved } = useSavedEvents();
+    const { isEventSaved } = useSavedEvents();
     const isSaved = isEventSaved(event?.id);
 
     const eventImage = getEventImage(event.images);
@@ -24,6 +27,9 @@ const EventCard = ({ event }: EventCardProps) => {
     const eventStatus = getEventStatus(event);
     const venue = event._embedded?.venues?.[0];
 
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     return (
         <Link href={`/evento/${event.id}`} className={styles.eventCard}>
@@ -35,11 +41,11 @@ const EventCard = ({ event }: EventCardProps) => {
                     loading="lazy"
                 />
                 <button
-                    className={`${styles.saveButton} ${isSaved ? styles.saved : ''}`}
+                    className={`${styles.saveButton} ${isMounted && isSaved ? styles.saved : ''}`}
                     onClick={handleSaveToggle}
-                    aria-label={isSaved ? 'Remover dos favoritos' : 'Salvar evento'}
+                    aria-label={isMounted && isSaved ? 'Remover dos favoritos' : 'Salvar evento'}
                 >
-                    {isSaved ? '❤️' : '🤍'}
+                    {isMounted && isSaved ? '❤️' : '🤍'}
                 </button>
                 <span className={`${styles.statusBadge} ${styles[`status${eventStatus.replace(/\s/g, '')}`] || ''}`}>
                     {eventStatus}
